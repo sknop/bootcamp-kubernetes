@@ -1,0 +1,2 @@
+username=cn=mds,dc=bootcamp,dc=confluent,dc=io
+password=Developer!

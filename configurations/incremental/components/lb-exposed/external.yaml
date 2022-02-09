@@ -1,0 +1,64 @@
+apiVersion: platform.confluent.io/v1beta1
+kind: Kafka
+metadata:
+  name: kafka
+  namespace: confluent
+spec:
+ listeners:
+    external:
+      tls:
+        enabled: true
+      authentication:
+        type: plain
+        jaasConfig:
+          secretRef: credential
+      externalAccess:
+        type: loadBalancer
+        loadBalancer:
+          domain: $(NAMESPACE).kubernetes-bootcamp.confluent.io
+          brokerPrefix: b
+          bootstrapPrefix: bootstrap
+---
+apiVersion: platform.confluent.io/v1beta1
+kind: Connect
+metadata:
+  name: connect
+  namespace: confluent
+spec:
+  externalAccess:
+    type: loadBalancer
+    loadBalancer:
+      domain: $(NAMESPACE).kubernetes-bootcamp.confluent.io
+---
+apiVersion: platform.confluent.io/v1beta1
+kind: KsqlDB
+metadata:
+  name: ksqldb
+  namespace: confluent
+spec:
+  externalAccess:
+    type: loadBalancer
+    loadBalancer:
+      domain: $(NAMESPACE).kubernetes-bootcamp.confluent.io
+---
+apiVersion: platform.confluent.io/v1beta1
+kind: SchemaRegistry
+metadata:
+  name: schemaregistry
+  namespace: confluent
+spec:
+  externalAccess:
+    type: loadBalancer
+    loadBalancer:
+      domain: $(NAMESPACE).kubernetes-bootcamp.confluent.io
+---
+apiVersion: platform.confluent.io/v1beta1
+kind: ControlCenter
+metadata:
+  name: controlcenter
+  namespace: confluent
+spec:
+  externalAccess:
+    type: loadBalancer
+    loadBalancer:
+      domain: $(NAMESPACE).kubernetes-bootcamp.confluent.io

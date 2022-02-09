@@ -1,0 +1,72 @@
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+
+secretGenerator:
+- name: mds-token
+  options:
+    disableNameSuffixHash: true
+  files:
+    - mdsTokenKeyPair.pem
+    - mdsPublicKey.pem
+- name: ldap-credential
+  options:
+    disableNameSuffixHash: true
+  files:
+    - ldap.txt
+- name: connect-mds-client
+  options:
+    disableNameSuffixHash: true
+  literals:
+    - |
+      bearer.txt=username=connect
+      password=connect-secret
+
+- name: ksqldb-mds-client
+  options:
+    disableNameSuffixHash: true
+  literals:
+    - |
+      bearer.txt=username=ksql
+      password=ksql-secret
+
+- name: sr-mds-client
+  options:
+    disableNameSuffixHash: true
+  literals:
+    - |
+      bearer.txt=username=sr
+      password=sr-secret
+
+- name: c3-mds-client
+  options:
+    disableNameSuffixHash: true
+  literals:
+    - |
+      bearer.txt=username=c3
+      password=c3-secret
+
+- name: mds-client
+  options:
+    disableNameSuffixHash: true
+  literals:
+    - |
+      bearer.txt=username=kafka
+      password=kafka-secret
+
+- name: rest-credential
+  options:
+    disableNameSuffixHash: true
+  literals:
+    - |
+      bearer.txt=username=kafka
+      password=kafka-secret
+    - |
+      basic.txt=username=kafka
+      password=kafka-secret
+
+patchesStrategicMerge:
+  - authorisation.yaml
+
+resources:
+  - restclass.yaml
+

@@ -1,0 +1,8 @@
+resources:
+- confluent-platform.yaml
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+
+namespace: rbac-kafka-cluster

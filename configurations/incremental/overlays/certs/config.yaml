@@ -1,0 +1,10 @@
+varReference:
+- path: spec/dnsNames
+  kind: Certificate
+- path: spec/commonName
+  kind: Certificate
+- path: metadata/namespace
+  kind: Certificate
+- path: metadata/namespace
+  kind: Issuer
+
