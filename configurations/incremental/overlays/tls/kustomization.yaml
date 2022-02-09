@@ -21,5 +21,3 @@ resources:
 
 components:
   - ../../components/tls
-  - ../../components/lb-exposed
-
