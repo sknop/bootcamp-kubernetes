@@ -1,6 +1,6 @@
 # Setting up Confluent For Kubernetes operator
 
-![image](https://user-images.githubusercontent.com/3109377/153218981-ef2ff847-be76-4981-a4ff-f1115eea1ba9.png)
+![image](https://user-images.githubusercontent.com/3109377/153290401-b6a94bc6-bc22-43f0-ba3d-582dd81815f1.png)
 
 ### Goals
 

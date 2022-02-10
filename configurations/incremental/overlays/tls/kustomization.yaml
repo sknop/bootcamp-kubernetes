@@ -21,3 +21,4 @@ resources:
 
 components:
   - ../../components/tls
+  - ../../components/prometheus
