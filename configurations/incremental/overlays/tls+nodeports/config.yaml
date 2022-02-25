@@ -1,0 +1,46 @@
+varReference:
+- path: spec/dependencies/zookeeper/endpoint
+  kind: Kafka
+- path: spec/listeners/external/externalAccess/nodePort/host
+  kind: Kafka
+- path: spec/dependencies/kafka/bootstrapEndpoint
+  kind: Connect
+- path: spec/dependencies/mds/endpoint
+  kind: Connect
+- path: spec/externalAccess/nodePort/host
+  kind: Connect
+- path: spec/dependencies/kafka/bootstrapEndpoint
+  kind: SchemaRegistry
+- path: spec/dependencies/mds/endpoint
+  kind: SchemaRegistry
+- path: spec/externalAccess/nodePort/host
+  kind: SchemaRegistry
+- path: spec/dependencies/mds/endpoint
+  kind: KsqlDB
+- path: spec/dependencies/kafka/bootstrapEndpoint
+  kind: KsqlDB
+- path: spec/externalAccess/nodePort/host
+  kind: KsqlDB
+- path: spec/dependencies/kafka/bootstrapEndpoint
+  kind: ControlCenter
+- path: spec/dependencies/schemaRegistry/url
+  kind: ControlCenter
+- path: spec/dependencies/connect/url
+  kind: ControlCenter
+- path: spec/dependencies/ksqldb/url
+  kind: ControlCenter
+- path: spec/dependencies/mds/endpoint
+  kind: ControlCenter
+- path: spec/externalAccess/nodePort/host
+  kind: ControlCenter
+- path: spec/dnsNames
+  kind: Certificate
+- path: spec/commonName
+  kind: Certificate
+- path: metadata/namespace
+  kind: Certificate
+- path: metadata/namespace
+  kind: ClusterIssuer
+
+
+

@@ -11,6 +11,8 @@ spec:
     init: confluentinc/confluent-init-container:2.2.0-1
   dataVolumeCapacity: 10Gi
   logVolumeCapacity: 10Gi
+  storageClass:
+    name: ebs-sc
 ---
 apiVersion: platform.confluent.io/v1beta1
 kind: Kafka
@@ -23,8 +25,8 @@ spec:
     application: confluentinc/cp-server:7.0.1
     init: confluentinc/confluent-init-container:2.2.0-1
   dataVolumeCapacity: 10Gi
-  metricReporter:
-    enabled: true
+  storageClass:
+    name: ebs-sc
 ---
 apiVersion: platform.confluent.io/v1beta1
 kind: Connect
@@ -39,7 +41,6 @@ spec:
   dependencies:
     kafka:
       bootstrapEndpoint: kafka:9071
-
 ---
 apiVersion: platform.confluent.io/v1beta1
 kind: KsqlDB

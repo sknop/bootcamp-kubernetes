@@ -1,0 +1,76 @@
+apiVersion: platform.confluent.io/v1beta1
+kind: Kafka
+metadata:
+  name: kafka
+  namespace: confluent
+spec:
+ listeners:
+    external:
+      tls:
+        enabled: true
+      authentication:
+        type: plain
+        jaasConfig:
+          secretRef: credential
+      externalAccess:
+        type: nodePort
+        nodePort:
+          annotations:
+            service.beta.kubernetes.io/aws-load-balancer-target-group-attributes: "preserve_client_ip.enabled=true"
+            service.beta.kubernetes.io/aws-load-balancer-backend-protocol: "tcp"
+            service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: "instance"
+            service.beta.kubernetes.io/aws-load-balancer-type: "external"
+            service.beta.kubernetes.io/aws-load-balancer-internal: "true"
+            service.beta.kubernetes.io/aws-load-balancer-subnets: "subnet-0d8f00c48032aabc6, subnet-08ee5dfa7dff69142, subnet-049c93e457808c85d"
+            service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
+
+          host: kafka-$(NAMESPACE).kubernetes-bootcamp.confluent.io
+          nodePortOffset: 30000
+---
+apiVersion: platform.confluent.io/v1beta1
+kind: Connect
+metadata:
+  name: connect
+  namespace: confluent
+spec:
+  externalAccess:
+    type: nodePort
+    nodePort:
+      host: connect-$(NAMESPACE).kubernetes-bootcamp.confluent.io
+      nodePortOffset: 30100
+---
+apiVersion: platform.confluent.io/v1beta1
+kind: KsqlDB
+metadata:
+  name: ksqldb
+  namespace: confluent
+spec:
+  externalAccess:
+    type: nodePort
+    nodePort:
+      host: ksqldb-$(NAMESPACE).kubernetes-bootcamp.confluent.io
+      nodePortOffset: 30200
+---
+apiVersion: platform.confluent.io/v1beta1
+kind: SchemaRegistry
+metadata:
+  name: schemaregistry
+  namespace: confluent
+spec:
+  externalAccess:
+    type: nodePort
+    nodePort:
+      host: schemaregistry-$(NAMESPACE).kubernetes-bootcamp.confluent.io
+      nodePortOffset: 30300
+---
+apiVersion: platform.confluent.io/v1beta1
+kind: ControlCenter
+metadata:
+  name: controlcenter
+  namespace: confluent
+spec:
+  externalAccess:
+    type: nodePort
+    nodePort:
+      host: controlcenter-$(NAMESPACE).kubernetes-bootcamp.confluent.io
+      nodePortOffset: 30400

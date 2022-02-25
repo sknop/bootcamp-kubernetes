@@ -19,6 +19,14 @@ metadata:
 spec:
   tls:
     secretRef: tls-kafka
+  metricReporter:
+    enabled: true
+    authentication:
+      type: plain
+      jaasConfig:
+        secretRef: credential
+    tls:
+      enabled: true
   listeners:
     internal:
       authentication:
