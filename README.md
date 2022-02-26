@@ -70,4 +70,65 @@ helm install \
   -f configurations/ldap/values.yaml 
 ```
 
-### Useful 
+EBS CSI Drivers 
+
+```
+curl -o example-iam-policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-ebs-csi-driver/master/docs/example-iam-policy.json
+
+aws iam create-policy \
+    --policy-name AmazonEKS_EBS_CSI_Driver_Policy \
+    --policy-document file://example-iam-policy.json
+
+eksctl create iamserviceaccount \
+    --name ebs-csi-controller-sa \
+    --override-existing-serviceaccounts \
+    --namespace kube-system \
+    --cluster sknop-bootcamp-cluster \
+    --attach-policy-arn arn:aws:iam::492737776546:policy/AmazonEKS_EBS_CSI_Driver_Policy \
+    --approve \
+    --role-only
+
+eksctl create addon --name aws-ebs-csi-driver --cluster sknop-bootcamp-cluster --service-account-role-arn arn:aws:iam::492737776546:role/CSIEBSBootcampRole
+ --force
+```
+
+AWS Load Balancer Controller
+
+```
+curl -o iam_policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.2.0/docs/install/iam_policy.json
+
+aws iam create-policy \
+   --policy-name AWSLoadBalancerControllerIAMPolicy \
+   --policy-document file://iam_policy.json
+
+eksctl create iamserviceaccount \
+    --name aws-load-balancer-controller-sa \
+    --override-existing-serviceaccounts \
+    --namespace kube-system \
+    --cluster sknop-bootcamp-cluster \
+    --attach-policy-arn arn:aws:iam::492737776546:policy/AWSLoadBalancerControllerIAMPolicy \
+    --approve
+
+helm repo add eks https://aws.github.io/eks-charts
+helm repo update
+
+kubectl apply -k "github.com/aws/eks-charts/stable/aws-load-balancer-controller//crds?ref=master"
+
+helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
+    --set clusterName=sknop-bootcamp-cluster \
+    --set serviceAccount.create=false \
+    --set region=eu-west-1 \
+    --set vpcId=vpc-08da1069e2646f90f \
+    --set serviceAccount.name=aws-load-balancer-controller-sa \
+    -n kube-system
+```
+
+NGINX Ingress Controller
+
+```
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo update
+
+helm upgrade -n kube-system --install ingress-nginx ingress-nginx/ingress-nginx \
+  --set controller.extraArgs.enable-ssl-passthrough="true"
+```
