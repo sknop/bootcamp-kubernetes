@@ -1,0 +1,48 @@
+apiVersion: platform.confluent.io/v1beta1
+kind: KafkaTopic
+metadata:
+  name: perf-test-topic
+spec:
+  replicas: 3
+  partitionCount: 10
+  configs:
+    cleanup.policy: "delete"
+  kafkaClusterRef:
+    name: kafka
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-producer
+  labels:
+    app: kafka-producer
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: kafka-producer
+  template:
+    metadata:
+      labels:
+        app: kafka-producer
+    spec:
+      containers:
+      - command:
+        - /bin/sh
+        - -c
+        - |
+          /usr/bin/kafka-producer-perf-test \
+          --throughput -1 \
+          --num-records 1000000 \
+          --topic perf-test-topic \
+          --record-size 2048 \
+          --print-metrics \
+          --producer-props bootstrap.servers=kafka.rbac-kafka-cluster.svc.cluster.local:9092
+        image: confluentinc/cp-kafka
+        name: perf-client
+        resources:
+          requests:
+            memory: 512Mi
+            cpu: 1000m
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
