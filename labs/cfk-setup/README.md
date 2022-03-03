@@ -9,7 +9,7 @@
 * Assessing CFK installation with client-side CFK plugin
 
 
-### Dependencies 
+### Dependencies 
 
 Server-side components: 
 
@@ -48,7 +48,7 @@ Optional but recommended:
 8. Install Cert-Manager in a different namespace using Helm.
 9. Generate your own CA and private key files and create a `kubernetes.io/tls` secret type with the name `ca-pair-ssl` on Cert-Manager's namespace.
 
-### Evaluation 
+### Evaluation 
 
 Some quick checks that you can do to assess your installation: 
 
@@ -104,7 +104,7 @@ schemaregistry.platform.confluent.io/schemaregistry created
 
 kubectl confluent status -n confluent
 
-### remove the deployment 
+### remove the deployment 
 
 kubectl delete -f https://raw.githubusercontent.com/confluentinc/confluent-kubernetes-examples/master/quickstart-deploy/confluent-platform-singlenode.yaml
 ```
@@ -126,7 +126,7 @@ EOF
 
 clusterissuer.cert-manager.io/ca-issuer created
 
-### create certificate 
+### create certificate 
 
 kubectl apply -n default -f - <<EOF
 apiVersion: cert-manager.io/v1
