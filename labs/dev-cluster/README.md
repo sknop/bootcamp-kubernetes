@@ -10,7 +10,7 @@
 * Performing common Kafka operations with CFK. 
 * Resizing, snapshotting and migration of storage volumes. 
 
-### Dependencies 
+### Dependencies 
 
 Server-side components: 
 
