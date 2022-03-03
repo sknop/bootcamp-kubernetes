@@ -1,6 +1,4 @@
-# Deploying a production Confluent Platform cluster
-
-![image](https://user-images.githubusercontent.com/3109377/153306660-b0104933-ce44-4442-8558-257c324ea4fe.png)
+# Deploying a production-ready Confluent Platform cluster
 
 ### Goals
 
@@ -35,7 +33,7 @@ Client-side components:
 ### Tasks
 
 1. Create a new namespace for the production cluster
-2. Deploy a cluster using SASL/SCRAM over TLS and expose Confluent Server brokers using NodePorts.
+2. Deploy a cluster using SASL/PLAIN over TLS and expose Confluent Server brokers using NodePorts.
 
 ![image](https://user-images.githubusercontent.com/3109377/155852071-05d119d7-01f0-49d5-935b-3199e744970d.png)
 
@@ -47,10 +45,13 @@ Client-side components:
 5. Try to access the brokers using their domain name from a jumphost placed in the Bootcamp VPC. 
  
 6. Deploy a cluster using SASL/PLAIN over TLS and expose Confluent Platform services externally with a load balancer. 
+
+![image](https://user-images.githubusercontent.com/3109377/156514342-b9b45cd8-dc62-4ca8-81fd-d3db62edf144.png)
+
 7. Try to access the different services from a jumphost located inside the Bootcamp VPC. 
 8. Upgrade the cluster to work with RBAC and integrate with the existing LDAP server. 
 
-### Evaluation 
+### Notes 
 
 NodePorts communication relies on security groups to be configured accordingly. The image below shows how the k8s NodePorts range has been made accessible to any instance in the VPC CIDR range. 
 
