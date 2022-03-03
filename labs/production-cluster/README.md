@@ -8,7 +8,7 @@
 * Integration with LDAP for RBAC.
 * Defining new configuration variants with Kustomize overlays and components.
 
-### Dependencies 
+### Dependencies 
 
 Server-side components: 
 
@@ -51,7 +51,7 @@ Client-side components:
 7. Try to access the different services from a jumphost located inside the Bootcamp VPC. 
 8. Upgrade the cluster to work with RBAC and integrate with the existing LDAP server. 
 
-### Notes 
+### Notes 
 
 NodePorts communication relies on security groups to be configured accordingly. The image below shows how the k8s NodePorts range has been made accessible to any instance in the VPC CIDR range. 
 
