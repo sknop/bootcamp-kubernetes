@@ -1,0 +1,18 @@
+-A KUBE-SEP-7J4BZRDUAUFWUHWK -s 172.30.9.158/32 -m comment --comment "testing/kafka-1-internal:internal" -j KUBE-MARK-MASQ
+-A KUBE-SEP-7J4BZRDUAUFWUHWK -p tcp -m comment --comment "testing/kafka-1-internal:internal" -m tcp -j DNAT --to-destination 172.30.9.158:9071
+-A KUBE-SEP-B23NZGFDLGG4JU5O -s 172.30.9.158/32 -m comment --comment "testing/kafka-1-internal:jolokia" -j KUBE-MARK-MASQ
+-A KUBE-SEP-B23NZGFDLGG4JU5O -p tcp -m comment --comment "testing/kafka-1-internal:jolokia" -m tcp -j DNAT --to-destination 172.30.9.158:7777
+-A KUBE-SEP-DIWCLGVFPQBJJPQW -s 172.30.9.158/32 -m comment --comment "testing/kafka-1-internal:external" -j KUBE-MARK-MASQ
+-A KUBE-SEP-DIWCLGVFPQBJJPQW -p tcp -m comment --comment "testing/kafka-1-internal:external" -m tcp -j DNAT --to-destination 172.30.9.158:9092
+-A KUBE-SEP-DU4U5CSM2ERAOV6C -s 172.30.9.158/32 -m comment --comment "testing/kafka-1-np:external" -j KUBE-MARK-MASQ
+-A KUBE-SEP-DU4U5CSM2ERAOV6C -p tcp -m comment --comment "testing/kafka-1-np:external" -m tcp -j DNAT --to-destination 172.30.9.158:9092
+-A KUBE-SEP-MRKJILPDNSTPKUQ3 -s 172.30.9.158/32 -m comment --comment "testing/kafka-1-internal:replication" -j KUBE-MARK-MASQ
+-A KUBE-SEP-MRKJILPDNSTPKUQ3 -p tcp -m comment --comment "testing/kafka-1-internal:replication" -m tcp -j DNAT --to-destination 172.30.9.158:9072
+-A KUBE-SEP-NKBKQZT7DENJ4OIC -s 172.30.9.158/32 -m comment --comment "testing/kafka-1-internal:http-external" -j KUBE-MARK-MASQ
+-A KUBE-SEP-NKBKQZT7DENJ4OIC -p tcp -m comment --comment "testing/kafka-1-internal:http-external" -m tcp -j DNAT --to-destination 172.30.9.158:8090
+-A KUBE-SEP-NQMU257D3B4ESIED -s 172.30.9.158/32 -m comment --comment "testing/kafka-bootstrap-np:external" -j KUBE-MARK-MASQ
+-A KUBE-SEP-NQMU257D3B4ESIED -p tcp -m comment --comment "testing/kafka-bootstrap-np:external" -m tcp -j DNAT --to-destination 172.30.9.158:9092
+-A KUBE-SEP-TPVOMWJVBJJHMB2J -s 172.30.9.158/32 -m comment --comment "testing/kafka-1-internal:jmx" -j KUBE-MARK-MASQ
+-A KUBE-SEP-TPVOMWJVBJJHMB2J -p tcp -m comment --comment "testing/kafka-1-internal:jmx" -m tcp -j DNAT --to-destination 172.30.9.158:7203
+-A KUBE-SEP-ZXTOHLWXYGR6TZ4X -s 172.30.9.158/32 -m comment --comment "testing/kafka-1-internal:prometheus" -j KUBE-MARK-MASQ
+-A KUBE-SEP-ZXTOHLWXYGR6TZ4X -p tcp -m comment --comment "testing/kafka-1-internal:prometheus" -m tcp -j DNAT --to-destination 172.30.9.158:7778

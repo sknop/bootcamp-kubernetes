@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: my-pod
+  name: my-pod
+spec:
+  containers:
+  - image: nicolaka/netshoot
+    name: my-pod
+    command: ["sleep","infinity"]
+    resources: {}
+    volumeMounts:
+    - mountPath: /mnt
+      name: test-volume
+    securityContext:
+      privileged: true
+  volumes:
+  - name: test-volume
+    hostPath:
+      path: /
+      type: Directory
+  hostIPC: true
+  hostPID: true
+  hostNetwork: true
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+  nodeName: ip-172-30-3-220.eu-west-1.compute.internal
+status: {}
