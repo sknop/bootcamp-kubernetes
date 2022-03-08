@@ -2,7 +2,7 @@ apiVersion: platform.confluent.io/v1beta1
 kind: KafkaRestClass
 metadata:
   name: default
-  namespace: rbac-kafka-cluster
+  namespace: $(NAMESPACE)
 spec:
   kafkaRest:
     authentication:

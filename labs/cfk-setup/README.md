@@ -20,6 +20,7 @@ Client-side components:
 
 * [**helm:**](https://helm.sh/) package manager with templating support for Kubernetes.  
 * [**eksctl:**](https://eksctl.io/) CLI utility tool to easily manage and provision EKS clusters.
+* [**KinD**](https://kind.sigs.k8s.io/) As an alternative, you can deploy a local cluster using Kubernetes-In-Docker (KinD)
 * [**kubectl:**](https://kubernetes.io/docs/tasks/tools/) CLI Kubernetes client.
 * [**krew:**](https://krew.sigs.k8s.io/) Kubectl plugins manager.   
 * [**CFK plugin:**](https://github.com/confluentinc/confluent-operator#install-kubectl-plugin) Kubectl Confluent plugin for CFK.
@@ -30,7 +31,9 @@ Optional but recommended:
 
 * **kubectl plugins:** my kubectl setup is not completed without the following plugins:
 
-	* **lineage:** simplifies the tracking of dependencies associated with k8s resources. Quite useful to understand what k8s native objects emerge as a result of a CRD (e.g., CFK manifest for Kafka).     
+	* **lineage:** simplifies the tracking of dependencies associated with k8s resources. Quite useful to understand what k8s native objects emerge as a result of a CRD (e.g., CFK manifest for Kafka). 
+	* **spy:** a plugin that allows injecting a new container into existing pods for debugging purposes. Pod expansion has been implemented recently in Kubernetes via [Ephemeral Containers](https://kubernetes.io/docs/concepts/workloads/pods/ephemeral-containers/) and kubectl debug, however, most cloud providers don't allow its usage due to stability concerns.
+	* **dig:** a plugin by SysDig for improved observability and troubleshooting.       
 	
 * [**stern:**](https://github.com/wercker/stern) Kubernetes logging utility with improved functionality over `kubectl logs` and some similar options to `journalctl`.  
 * [**kubens/kubectx:**](https://github.com/ahmetb/kubectx) CLI utilities to easily switch namespaces and clusters context respectively. 

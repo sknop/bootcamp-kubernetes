@@ -1,4 +1,6 @@
 varReference:
+- path: metadata/namespace
+  kind: KafkaRestClass
 - path: spec/dependencies/zookeeper/endpoint
   kind: Kafka
 - path: spec/listeners/external/externalAccess/loadBalancer/domain

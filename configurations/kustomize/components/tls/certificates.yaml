@@ -22,6 +22,7 @@ spec:
   dnsNames:
     - zookeeper.$(NAMESPACE).svc.cluster.local
     - "*.zookeeper.$(NAMESPACE).svc.cluster.local"
+    - "*.$(NAMESPACE).kubernetes-bootcamp.confluent.io"
   issuerRef:
     name: ca-issuer
     kind: ClusterIssuer
@@ -51,6 +52,7 @@ spec:
   dnsNames:
     - kafka.$(NAMESPACE).svc.cluster.local
     - "*.kafka.$(NAMESPACE).svc.cluster.local"
+    - "*.$(NAMESPACE).kubernetes-bootcamp.confluent.io"
   issuerRef:
     name: ca-issuer
     kind: ClusterIssuer
@@ -80,6 +82,7 @@ spec:
   dnsNames:
     - connect.$(NAMESPACE).svc.cluster.local
     - "*.connect.$(NAMESPACE).svc.cluster.local"
+    - "*.$(NAMESPACE).kubernetes-bootcamp.confluent.io"
   issuerRef:
     name: ca-issuer
     kind: ClusterIssuer
@@ -109,6 +112,7 @@ spec:
   dnsNames:
     - schemaregistry.$(NAMESPACE).svc.cluster.local
     - "*.schemaregistry.$(NAMESPACE).svc.cluster.local"
+    - "*.$(NAMESPACE).kubernetes-bootcamp.confluent.io"
   issuerRef:
     name: ca-issuer
     kind: ClusterIssuer
@@ -126,7 +130,7 @@ spec:
   subject:
     organizations:
       - confluent
-  commonName: schemaregistry.$(NAMESPACE).svc.cluster.local
+  commonName: ksqldb.$(NAMESPACE).svc.cluster.local
   isCA: false
   privateKey:
     algorithm: RSA
@@ -138,6 +142,7 @@ spec:
   dnsNames:
     - ksqldb.$(NAMESPACE).svc.cluster.local
     - "*.ksqldb.$(NAMESPACE).svc.cluster.local"
+    - "*.$(NAMESPACE).kubernetes-bootcamp.confluent.io"
   issuerRef:
     name: ca-issuer
     kind: ClusterIssuer
@@ -167,6 +172,7 @@ spec:
   dnsNames:
     - controlcenter.$(NAMESPACE).svc.cluster.local
     - "*.controlcenter.$(NAMESPACE).svc.cluster.local"
+    - "*.$(NAMESPACE).kubernetes-bootcamp.confluent.io"
   issuerRef:
     name: ca-issuer
     kind: ClusterIssuer

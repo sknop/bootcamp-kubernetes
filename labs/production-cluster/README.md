@@ -38,18 +38,20 @@ Client-side components:
 ![image](https://user-images.githubusercontent.com/3109377/155852071-05d119d7-01f0-49d5-935b-3199e744970d.png)
 
 3. Try to access the brokers from a jumphost located inside the Bootcamp VPC. 
-4. Modify the cluster to expose Confluent Server brokers using host-based routing and Ingress. 
+4. Annotate the nodePort service with `service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: "ip"` and deploy the cluster again. What changes?
+5. Modify the cluster to expose Confluent Server brokers using host-based routing and Ingress. 
 
 ![image](https://user-images.githubusercontent.com/3109377/155852043-d6d47f25-7148-4c14-b3aa-afbf7c9b881a.png)
 
-5. Try to access the brokers using their domain name from a jumphost placed in the Bootcamp VPC. 
+6. Try to access the brokers using their domain name from a jumphost placed in the Bootcamp VPC. 
  
-6. Deploy a cluster using SASL/PLAIN over TLS and expose Confluent Platform services externally with a load balancer. 
+7. Deploy a cluster using SASL/PLAIN over TLS and expose Confluent Platform services externally with a load balancer. 
 
 ![image](https://user-images.githubusercontent.com/3109377/156514342-b9b45cd8-dc62-4ca8-81fd-d3db62edf144.png)
 
-7. Try to access the different services from a jumphost located inside the Bootcamp VPC. 
-8. Upgrade the cluster to work with RBAC and integrate with the existing LDAP server. 
+8. Try to access the different services from a jumphost located inside the Bootcamp VPC. 
+9. Upgrade the cluster to work with RBAC and integrate with the existing LDAP server. 
+10. Deploy a NetworkChaos rule to prevent access to OpenLDAP. Which services are broken and which ones are resilient? 
 
 ### Notes 
 
@@ -60,5 +62,27 @@ NodePorts communication relies on security groups to be configured accordingly. 
 To make access to NodePorts service easier, a Network Load Balancer has been provisioned pointing to a TargetGroup containing all the nodes belonging to the k8s cluster.  
 
 ![Screenshot 2022-02-25 at 10 09 23](https://user-images.githubusercontent.com/3109377/155696708-6f08b7a9-5d98-4e0a-b2b5-b79edbb87b1c.png)
+
+Check how TargetGroups differ when the load balancer targets node instances versus IPs
+
+```
+kubectl get TargetGroupBinding
+
+NAME                              SERVICE-NAME         SERVICE-PORT   TARGET-TYPE   AGE
+k8s-testing-kafka0np-b5b8b13211   kafka-0-np           9092           ip            6m47s
+k8s-testing-kafka1np-99f664f296   kafka-1-np           9092           ip            6m47s
+k8s-testing-kafka2np-f72aac3854   kafka-2-np           9092           ip            6m46s
+k8s-testing-kafkaboo-e2216d1b11   kafka-bootstrap-np   9092           ip            6m47s
+
+
+kubectl get TargetGroupBinding
+
+NAME                              SERVICE-NAME         SERVICE-PORT   TARGET-TYPE   AGE
+k8s-testing-kafka0np-2f6bc0f246   kafka-0-np           9092           instance      66s
+k8s-testing-kafka1np-e79750acf8   kafka-1-np           9092           instance      66s
+k8s-testing-kafka2np-97843cc761   kafka-2-np           9092           instance      64s
+k8s-testing-kafkaboo-1c9f5cae46   kafka-bootstrap-np   9092           instance      66s
+
+```
 
 
