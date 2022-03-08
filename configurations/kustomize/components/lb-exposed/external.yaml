@@ -9,9 +9,9 @@ spec:
       tls:
         enabled: true
       authentication:
-        type: plain
-        jaasConfig:
-          secretRef: credential
+        type: mtls
+        principalMappingRules:
+          - RULE:^CN=([a-zA-Z0-9]*).*$/$1/
       externalAccess:
         type: loadBalancer
         loadBalancer:

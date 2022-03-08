@@ -1,0 +1,180 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: cert-zookeeper
+  namespace: $(NAMESPACE)
+spec:
+  secretName: tls-zookeeper
+  duration: 2160h # 90d
+  renewBefore: 360h # 15d
+  subject:
+    organizations:
+      - confluent
+  commonName: zookeeper.$(NAMESPACE).svc.cluster.local
+  isCA: false
+  privateKey:
+    algorithm: RSA
+    encoding: PKCS1
+    size: 2048
+  usages:
+    - server auth
+    - client auth
+  dnsNames:
+    - zookeeper.$(NAMESPACE).svc.cluster.local
+    - "*.zookeeper.$(NAMESPACE).svc.cluster.local"
+    - "*.$(NAMESPACE).kubernetes-bootcamp.confluent.io"
+  issuerRef:
+    name: ca-issuer
+    kind: ClusterIssuer
+    group: cert-manager.io
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: cert-kafka
+  namespace: $(NAMESPACE)
+spec:
+  secretName: tls-kafka
+  duration: 2160h # 90d
+  renewBefore: 360h # 15d
+  subject:
+    organizations:
+      - confluent
+  commonName: kafka.$(NAMESPACE).svc.cluster.local
+  isCA: false
+  privateKey:
+    algorithm: RSA
+    encoding: PKCS1
+    size: 2048
+  usages:
+    - server auth
+    - client auth
+  dnsNames:
+    - kafka.$(NAMESPACE).svc.cluster.local
+    - "*.kafka.$(NAMESPACE).svc.cluster.local"
+    - "*.$(NAMESPACE).kubernetes-bootcamp.confluent.io"
+  issuerRef:
+    name: ca-issuer
+    kind: ClusterIssuer
+    group: cert-manager.io
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: cert-connect
+  namespace: $(NAMESPACE)
+spec:
+  secretName: tls-connect
+  duration: 2160h # 90d
+  renewBefore: 360h # 15d
+  subject:
+    organizations:
+      - confluent
+  commonName: connect.$(NAMESPACE).svc.cluster.local
+  isCA: false
+  privateKey:
+    algorithm: RSA
+    encoding: PKCS1
+    size: 2048
+  usages:
+    - server auth
+    - client auth
+  dnsNames:
+    - connect.$(NAMESPACE).svc.cluster.local
+    - "*.connect.$(NAMESPACE).svc.cluster.local"
+    - "*.$(NAMESPACE).kubernetes-bootcamp.confluent.io"
+  issuerRef:
+    name: ca-issuer
+    kind: ClusterIssuer
+    group: cert-manager.io
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: cert-schemaregistry
+  namespace: $(NAMESPACE)
+spec:
+  secretName: tls-schemaregistry
+  duration: 2160h # 90d
+  renewBefore: 360h # 15d
+  subject:
+    organizations:
+      - confluent
+  commonName: schemaregistry.$(NAMESPACE).svc.cluster.local
+  isCA: false
+  privateKey:
+    algorithm: RSA
+    encoding: PKCS1
+    size: 2048
+  usages:
+    - server auth
+    - client auth
+  dnsNames:
+    - schemaregistry.$(NAMESPACE).svc.cluster.local
+    - "*.schemaregistry.$(NAMESPACE).svc.cluster.local"
+    - "*.$(NAMESPACE).kubernetes-bootcamp.confluent.io"
+  issuerRef:
+    name: ca-issuer
+    kind: ClusterIssuer
+    group: cert-manager.io
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: cert-ksqldb
+  namespace: $(NAMESPACE)
+spec:
+  secretName: tls-ksqldb
+  duration: 2160h # 90d
+  renewBefore: 360h # 15d
+  subject:
+    organizations:
+      - confluent
+  commonName: ksqldb.$(NAMESPACE).svc.cluster.local
+  isCA: false
+  privateKey:
+    algorithm: RSA
+    encoding: PKCS1
+    size: 2048
+  usages:
+    - server auth
+    - client auth
+  dnsNames:
+    - ksqldb.$(NAMESPACE).svc.cluster.local
+    - "*.ksqldb.$(NAMESPACE).svc.cluster.local"
+    - "*.$(NAMESPACE).kubernetes-bootcamp.confluent.io"
+  issuerRef:
+    name: ca-issuer
+    kind: ClusterIssuer
+    group: cert-manager.io
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: cert-controlcenter
+  namespace: $(NAMESPACE)
+spec:
+  secretName: tls-controlcenter
+  duration: 2160h # 90d
+  renewBefore: 360h # 15d
+  subject:
+    organizations:
+      - confluent
+  commonName: controlcenter.$(NAMESPACE).svc.cluster.local
+  isCA: false
+  privateKey:
+    algorithm: RSA
+    encoding: PKCS1
+    size: 2048
+  usages:
+    - server auth
+    - client auth
+  dnsNames:
+    - controlcenter.$(NAMESPACE).svc.cluster.local
+    - "*.controlcenter.$(NAMESPACE).svc.cluster.local"
+    - "*.$(NAMESPACE).kubernetes-bootcamp.confluent.io"
+  issuerRef:
+    name: ca-issuer
+    kind: ClusterIssuer
+    group: cert-manager.io
+
