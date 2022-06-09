@@ -1,0 +1,44 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: NetworkChaos
+metadata:
+  name: brokers-partition
+  namespace: kafka-zk
+spec:
+  action: partition
+  mode: all
+  selector:
+    namespaces:
+      - kafka-west
+    labelSelectors:
+      app: kafka
+  direction: both
+  target:
+    mode: all
+    selector:
+      namespaces:
+        - kafka-east
+      labelSelectors:
+        app: kafka
+---
+apiVersion: chaos-mesh.org/v1alpha1
+kind: NetworkChaos
+metadata:
+  name: producer-partition
+  namespace: kafka-zk
+spec:
+  action: partition
+  mode: all
+  selector:
+    namespaces:
+      - kafka-west
+    labelSelectors:
+      app: kafka-producer
+  direction: both
+  target:
+    mode: all
+    selector:
+      namespaces:
+        - kafka-east
+      labelSelectors:
+        app: kafka
+---

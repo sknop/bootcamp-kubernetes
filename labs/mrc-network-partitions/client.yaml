@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-producer
+  namespace: kafka-east
+  labels:
+    app: kafka-producer
+spec:
+  replicas: 0
+  selector:
+    matchLabels:
+      app: kafka-producer
+  template:
+    metadata:
+      labels:
+        app: kafka-producer
+    spec:
+      containers:
+      - command:
+        - /bin/sh
+        - -c
+        - |
+          /usr/bin/kafka-producer-perf-test \
+          --throughput -1 \
+          --num-records 1000000 \
+          --topic perf-topic-obs \
+          --record-size 2048 \
+          --print-metrics \
+          --producer-props bootstrap.servers="kafka.kafka-east.svc.cluster.local:9092" acks="all"
+        image: confluentinc/cp-kafka
+        name: perf-client
+        resources:
+          requests:
+            memory: 512Mi
+            cpu: 1000m
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+
+

@@ -1,0 +1,157 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Namespace
+  metadata:
+    name: kafka-zk
+- apiVersion: v1
+  kind: Namespace
+  metadata:
+    name: kafka-west
+- apiVersion: v1
+  kind: Namespace
+  metadata:
+    name: kafka-east
+- apiVersion: v1
+  kind: ServiceAccount
+  metadata:
+    name: kafka
+    namespace: kafka-east
+- apiVersion: v1
+  kind: ServiceAccount
+  metadata:
+    name: kafka
+    namespace: kafka-west
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: ClusterRole
+  metadata:
+    name: kafka-role
+  rules:
+  - apiGroups:
+    - ""
+    resources:
+    - nodes
+    - pods
+    verbs:
+    - get
+    - list
+- kind: ClusterRoleBinding
+  apiVersion: rbac.authorization.k8s.io/v1
+  metadata:
+    name: kafka-binding-west
+  subjects:
+  - kind: ServiceAccount
+    name: kafka
+    namespace: kafka-west
+  roleRef:
+    kind: ClusterRole
+    name: kafka-role
+    apiGroup: rbac.authorization.k8s.io
+- kind: ClusterRoleBinding
+  apiVersion: rbac.authorization.k8s.io/v1
+  metadata:
+    name: kafka-binding-east
+  subjects:
+  - kind: ServiceAccount
+    name: kafka
+    namespace: kafka-east
+  roleRef:
+    kind: ClusterRole
+    name: kafka-role
+    apiGroup: rbac.authorization.k8s.io
+- apiVersion: platform.confluent.io/v1beta1
+  kind: ControlCenter
+  metadata:
+    name: controlcenter
+    namespace: kafka-west
+  spec:
+    configOverrides:
+      server:
+        - confluent.controlcenter.streams.replication.factor=3
+    dataVolumeCapacity: 50Gi
+    dependencies:
+      kafka:
+        bootstrapEndpoint: kafka-0.kafka.kafka-west.svc.cluster.local:9071
+    image:
+      application: confluentinc/cp-enterprise-control-center:7.1.0
+      init: confluentinc/confluent-init-container:2.3.0
+    replicas: 1
+
+- apiVersion: platform.confluent.io/v1beta1
+  kind: Kafka
+  metadata:
+    name: kafka
+    namespace: kafka-east
+  spec:
+    dataVolumeCapacity: 50Gi
+    image:
+      application: confluentinc/cp-server:7.1.1
+      init: confluentinc/confluent-init-container:2.3.0
+    replicas: 3
+    configOverrides:
+      server:
+        - confluent.license.topic.replication.factor=3
+        - replica.selector.class=org.apache.kafka.common.replica.RackAwareReplicaSelector
+    dependencies:
+      zookeeper:
+        endpoint: zookeeper-0.zookeeper.kafka-zk.svc.cluster.local:2181,zookeeper-1.zookeeper.kafka-zk.svc.cluster.local:2181,zookeeper-2.zookeeper.kafka-zk.svc.cluster.local:2181
+    podTemplate:
+      serviceAccountName: kafka
+      topologySpreadConstraints:
+        - labelSelector:
+            matchLabels:
+              app: kafka
+          maxSkew: 1
+          topologyKey: confluent.io/east
+          whenUnsatisfiable: DoNotSchedule
+    oneReplicaPerNode: true
+    rackAssignment:
+      nodeLabels:
+        - confluent.io/rack
+- apiVersion: platform.confluent.io/v1beta1
+  kind: Kafka
+  metadata:
+    name: kafka
+    namespace: kafka-west
+    annotations:
+      platform.confluent.io/broker-id-offset: "10"
+  spec:
+    dataVolumeCapacity: 50Gi
+    image:
+      application: confluentinc/cp-server:7.1.1
+      init: confluentinc/confluent-init-container:2.3.0
+    replicas: 3
+    configOverrides:
+      server:
+        - confluent.license.topic.replication.factor=3
+        - replica.selector.class=org.apache.kafka.common.replica.RackAwareReplicaSelector
+    dependencies:
+      zookeeper:
+        endpoint: zookeeper-0.zookeeper.kafka-zk.svc.cluster.local:2181,zookeeper-1.zookeeper.kafka-zk.svc.cluster.local:2181,zookeeper-2.zookeeper.kafka-zk.svc.cluster.local:2181
+    podTemplate:
+      serviceAccountName: kafka
+      topologySpreadConstraints:
+        - labelSelector:
+            matchLabels:
+              app: kafka
+          maxSkew: 1
+          topologyKey: confluent.io/west
+          whenUnsatisfiable: DoNotSchedule
+    oneReplicaPerNode: true
+    rackAssignment:
+      nodeLabels:
+        - confluent.io/rack
+- apiVersion: platform.confluent.io/v1beta1
+  kind: Zookeeper
+  metadata:
+    name: zookeeper
+    namespace: kafka-zk
+  spec:
+    dataVolumeCapacity: 10Gi
+    image:
+      application: confluentinc/cp-zookeeper:7.0.1
+      init: confluentinc/confluent-init-container:2.2.0-1
+    logVolumeCapacity: 10Gi
+    replicas: 3
+kind: List
+metadata: {}
