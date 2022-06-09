@@ -7,10 +7,14 @@ items:
 - apiVersion: v1
   kind: Namespace
   metadata:
+    annotations: 
+      chaos-mesh.org/inject: enabled 
     name: kafka-west
 - apiVersion: v1
   kind: Namespace
   metadata:
+    annotations: 
+      chaos-mesh.org/inject: enabled 
     name: kafka-east
 - apiVersion: v1
   kind: ServiceAccount
